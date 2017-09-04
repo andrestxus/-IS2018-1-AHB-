@@ -86,18 +86,42 @@ public class Controlador {
      */ 
     @RequestMapping(value="/actualizaM", method = RequestMethod.GET)
     public ModelAndView actualizaM(ModelMap model,HttpServletRequest request){
-        //Aqui va tu codigo
-    
+        Double latitud = Double.parseDouble(request.getParameter("latitud"));
+        Double longitud = Double.parseDouble(request.getParameter("longitud"));
+        Marcador m = marcador_db.getMarcador(latitud, longitud);
+        model.addAttribute("actualizaM",m);
+        return new ModelAndView("actualizaM",model);
     }
     
     
     @RequestMapping(value="/eliminaMarcador", method = RequestMethod.GET)
     public String eliminaMarcador(HttpServletRequest request){
-        //Aqui va tu codigo
+        Double latitud = Double.parseDouble(request.getParameter("latitud"));
+        Double longitud = Double.parseDouble(request.getParameter("longitud"));
+        Marcador m = marcador_db.getMarcador(latitud, longitud);
+        if(m!=null){
+            marcador_db.eliminar(m);
+        }
+        return "redirect:/";
     }
     
     @RequestMapping(value= "/actualizar", method = RequestMethod.POST)
     public String actualizar(HttpServletRequest request){
-        //Aqui va tu codigo   
+        Double latitud = Double.parseDouble(request.getParameter("latitud"));
+        Double longitud = Double.parseDouble(request.getParameter("longitud"));
+        String nombre = request.getParameter("nombre");
+        String descripcion = request.getParameter("descripcion");
+        Marcador m = marcador_db.getMarcador(latitud, longitud);
+        if(m!=null){
+            if(descripcion.equals("")){
+                m.setDescription(descripcion);
+            }
+            if(nombre.equals("")){
+                m.setNombre_M(nombre);
+            }
+            marcador_db.actualizar(m);
+        
+        }
+        return "redirect:/";
     }
 }
