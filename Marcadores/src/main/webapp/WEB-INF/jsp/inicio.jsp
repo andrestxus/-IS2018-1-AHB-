@@ -20,7 +20,7 @@
         
         <div class="contenedor">
             <header>
-                <form action="/Marcadores/agregaMarcador"> 
+                <form action="/marcadores/agregaMarcador"> 
                     <button id="btnSes" class="btn btn-primary btn-lg" >Agrega un marcador</button>
                 </form>
             </header>
@@ -30,7 +30,6 @@
             </section>
             
             <aside>
-                
                 <table class="table">
                     <thead>
                         <tr>
@@ -46,7 +45,7 @@
                             <th>${m.latitud}</th>
                             <th>${m.longitud}</th>
                             <th>
-                                <form action="/Ejercicio1-Marcadores/actualizaM" method="GET">
+                                <form action="/marcadores/actualizaM" method="GET">
                                     <input id="latitud" name="latitud" hidden="true" value="${m.latitud}">
                                     <input id="longitud" name="longitud" hidden="true" value="${m.longitud}">
                                     <button type="submit" class="btn btn-primary btn-lg active">Actualiza</button>
@@ -68,10 +67,10 @@
                             '<h1 id="firstHeading" class="firstHeading">'+nom+'</h1>'+
                             '<div id="bodyContent">'+
                              '<p>'+des+'</p>'+
-                             '<form action="/Marcadores/eliminaMarcador" method="GET">'+
+                             '<form action="/marcadores/eliminaMarcador" method="GET">'+
                              '<input id="latitud" name="latitud" hidden="true" value="'+lat+'">'+
                              '<input id="longitud" name="longitud" hidden="true" value="'+lon+'">'+
-                             '<button type="submit" class="btn btn-primary btn-lg active">Eliminame</button>'+
+                             '<button type="submit" class="btn btn-primary btn-lg active">Eliminamesta!</button>'+
                              '</form>' +
                             '</div>'+
                            '</div>';   
@@ -103,19 +102,17 @@
     
             map = new google.maps.Map(document.getElementById('mapa'), {
                 center: {lat: 19.323447, lng: -99.179521},
-                zoom: 3
+                zoom: 14
             });
     
             var infowindow = new google.maps.InfoWindow(); 
             var marker, i;
-
             for (i = 0; i < markerLat.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(markerLat[i], markerLong[i]),
                     map: map,
                     title:markerName[i]
                 });
-
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                 return function() {
                     infowindow.setContent(ventanaInfo(markerDescr[i],markerLat[i],markerLong[i],markerName[i]));

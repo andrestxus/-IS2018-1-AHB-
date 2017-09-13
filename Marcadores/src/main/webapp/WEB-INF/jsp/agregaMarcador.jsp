@@ -32,7 +32,7 @@
                 <b>Closest matching address:</b>
                 <div id="address"></div>
                 <b>Current position:</b>
-                <form action="/Marcadores/guardaMarcador" method="GET">
+                <form action="/marcadores/guardaMarcador" method="GET">
                     <input id ="latitud" name = "latitud"  readonly="readonly" >
                     <input id ="longitud" name = "longitud"  readonly="readonly" >
                     <input name = "nombre"  placeholder="Nombre del punto" required="true">
@@ -49,8 +49,6 @@
 
   
     <script>
-
-
     function geocodePosition(pos) {
       geocoder.geocode({
         latLng: pos
@@ -62,15 +60,10 @@
         }
       });
     }
-
-
-
     function updateMarkerPosition(latLng) {
-
       document.getElementById('latitud').value=latLng.lat();
       document.getElementById('longitud').value=latLng.lng();
     }
-
     function updateMarkerAddress(str) {
       document.getElementById('address').innerHTML = str;
     }
@@ -83,7 +76,6 @@
       map = new google.maps.Map(document.getElementById('mapa'), {
         zoom: 17,
         center: latLng,
-
       });
       marker = new google.maps.Marker({
         position: latLng,
@@ -91,28 +83,20 @@
         map: map,
         draggable: true
       });
-
       // Update current position info.
       updateMarkerPosition(latLng);
       geocodePosition(latLng);
-
       // Add dragging event listeners.
       google.maps.event.addListener(marker, 'dragstart', function() {
         updateMarkerAddress('Dragging...');
       });
-
       google.maps.event.addListener(marker, 'drag', function() {
         updateMarkerPosition(marker.getPosition());
       });
-
       google.maps.event.addListener(marker, 'dragend', function() {
         geocodePosition(marker.getPosition());
       });
-
-
-
     }
-
     </script>
     
     <!-- Latest compiled and minified JavaScript -->

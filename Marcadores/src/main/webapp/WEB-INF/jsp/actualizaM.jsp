@@ -26,8 +26,10 @@
                 <div id="mapa"></div>
             </section>
             <aside>
+
                 
-                <form action="/Marcadores/actualizar" method="POST">
+<!--este es el actualizar del controlador, que a su vez, llama al actualizar del MarcadorDAO-->
+                <form action="/marcadores/actualizar" method="POST">
                     <input id="id" name="id" hidden="true" value="${marcador.marcadorid}"><br>
                     <input id="nombre" name="nombre"   placeholder="${marcador.nombre}"><br>
                     <input id="latitud" name="latitud" readonly="readonly" placeholder="${marcador.latitud}"><br>
@@ -39,8 +41,6 @@
         </div>
                     
         <script>
-
-
             function geocodePosition(pos) {
               geocoder.geocode({
                 latLng: pos
@@ -52,15 +52,10 @@
                 }
               });
             }
-
-
-
             function updateMarkerPosition(latLng) {
-
               document.getElementById('latitud').value=latLng.lat();
               document.getElementById('longitud').value=latLng.lng();
             }
-
             
             var map;
             var latLng;
@@ -71,7 +66,6 @@
               map = new google.maps.Map(document.getElementById('mapa'), {
                 zoom: 3,
                 center: latLng,
-
               });
               marker = new google.maps.Marker({
                 position: latLng,
@@ -79,24 +73,16 @@
                 map: map,
                 draggable: true
               });
-
               // Update current position info.
               geocodePosition(latLng);
-
               
-
               google.maps.event.addListener(marker, 'drag', function() {
                 updateMarkerPosition(marker.getPosition());
               });
-
               google.maps.event.addListener(marker, 'dragend', function() {
                 geocodePosition(marker.getPosition());
               });
-
-
-
             }
-
         </script>
         <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCug-PSCy85c1e2cPnPVzRGgdCK8RSMbdg&callback=initialize">
