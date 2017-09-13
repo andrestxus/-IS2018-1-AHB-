@@ -71,7 +71,6 @@ public class Controlador {
             m.setNombre(nombre);
             m.setDescripcion(descripcion);
             marcador_db.guardar(m);
-        
         }
         return "redirect:/";
     }
@@ -88,9 +87,11 @@ public class Controlador {
     public ModelAndView actualizaM(ModelMap model,HttpServletRequest request){
         Double latitud = Double.parseDouble(request.getParameter("latitud"));
         Double longitud = Double.parseDouble(request.getParameter("longitud"));
-        Marcador m = marcador_db.getMarcador(latitud, longitud);
-        model.addAttribute("actualizaM",m);
+        Marcador ma = marcador_db.getMarcador(latitud, longitud);
+        model.addAttribute("marcadores", ma);
         return new ModelAndView("actualizaM",model);
+        
+    
     }
     
     
@@ -98,11 +99,15 @@ public class Controlador {
     public String eliminaMarcador(HttpServletRequest request){
         Double latitud = Double.parseDouble(request.getParameter("latitud"));
         Double longitud = Double.parseDouble(request.getParameter("longitud"));
-        Marcador m = marcador_db.getMarcador(latitud, longitud);
-        if(m!=null){
-            marcador_db.eliminar(m);
+        Marcador ma = marcador_db.getMarcador(latitud, longitud);
+        if(ma!=null){
+            marcador_db.eliminar(ma);
+            return "redirect:/";
         }
-        return "redirect:/";
+        if(ma == null){
+            return "redirect:/No-hubo-marcador :(";
+        }
+        return "agregaMarcador";
     }
     
     @RequestMapping(value= "/actualizar", method = RequestMethod.POST)
@@ -111,16 +116,16 @@ public class Controlador {
         Double longitud = Double.parseDouble(request.getParameter("longitud"));
         String nombre = request.getParameter("nombre");
         String descripcion = request.getParameter("descripcion");
-        Marcador m = marcador_db.getMarcador(latitud, longitud);
-        if(m!=null){
-            if(descripcion.equals("")){
-                m.setDescription(descripcion);
-            }
-            if(nombre.equals("")){
-                m.setNombre_M(nombre);
-            }
-            marcador_db.actualizar(m);
-        
+        Marcador ma = marcador_db.getMarcador(latitud, longitud);
+        if(ma!=null){
+            if(!descripcion.equals(""))
+                ma.setDescripcion(descripcion);
+            if(!nombre.equals(""))
+                ma.setNombre(nombre);
+            marcador_db.actualizar(ma);
+        }
+        if(ma == null){
+            return "redirect:/No-hubo-marcador :(";
         }
         return "redirect:/";
     }
