@@ -64,7 +64,26 @@ public class MarcadorDAO {
      * @return la lista que contiene a todos los marcadores de la base de datos
      */
     public List<Marcador> getMarcadores(){
-        //Aqui va tu codigo
+        List<Marcador> marcadores = null;
+        Marcador m = null;
+        Session s = sessionFactory.openSession();
+        Transaction tx = null;
+        try{
+            tx = s.beginTransaction();
+            String hql = " From Marcador";
+            Query query = s.createQuery(hql);
+            marcadores = (List<Marcador>)query.list();
+            tx.commit();
+           
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        //kill!
+        }finally{
+           s.close();
+       }
+       return marcadores;
     }
     
     /**
@@ -74,7 +93,28 @@ public class MarcadorDAO {
      * @return el marcador con la longitud y latitud dada.
      */
     public Marcador getMarcador(double latitud,double longitud) {
-        //aqui va tu codigo
+       Marcador m = null;
+       Session s = sessionFactory.openSession();
+       Transaction tx = null;
+       try{
+           tx = s.beginTransaction();
+           String hql = " From Marcador where"
+                   + "varLatitud = :lat and"
+                   + "varLongitud = :long";
+           Query query = s.createQuery(hql);
+           query.setParameter("lat",latitud);
+           query.setParameter("long",longitud);
+           m = (Marcador)query.uniqueResult();
+           tx.commit();
+       }catch(Exception e){
+           if(tx!=null)
+               tx.rollback();
+           e.printStackTrace();
+       //kill!
+       }finally{
+           s.close();
+       }
+       return m;
     }
     
     /**
@@ -83,7 +123,26 @@ public class MarcadorDAO {
      * @return el marcador con ese id
      */
     public Marcador getMarcadorId(int id) {
-        //aqui va tu codigo
+        Marcador m = null;
+       Session s = sessionFactory.openSession();
+       Transaction tx = null;
+       try{
+           tx = s.beginTransaction();
+           String hql = " From Marcador where"
+                   + "varMarcador_id = :id ";
+           Query query = s.createQuery(hql);
+           query.setParameter("id",id);
+           m = (Marcador)query.uniqueResult();
+           tx.commit();
+       }catch(Exception e){
+           if(tx!=null)
+               tx.rollback();
+           e.printStackTrace();
+       //kill!
+       }finally{
+           s.close();
+       }
+       return m;
     }
     
     
@@ -92,7 +151,28 @@ public class MarcadorDAO {
      * @param marcador el marcador a eliminar
      */
     public void eliminar(Marcador marcador) {
-        //aqui va tu codigo
+        //se inicia la sesion
+        Session session = sessionFactory.openSession();
+        //la transaccion a relizar
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            //guardamos el marcador
+            session.delete(marcador);
+           
+            tx.commit();
+        }
+        catch (Exception e) {
+            //Se regresa a un estado consistente 
+            if (tx!=null){ 
+                tx.rollback();
+            }
+            e.printStackTrace(); 
+        }
+        finally {
+            //cerramos simpre la sesion
+            session.close();
+        }
     }
     
     /**
@@ -100,6 +180,27 @@ public class MarcadorDAO {
      * @param marcador con los nuevos valores 
      */
     public void actualizar(Marcador marcador) {
-        //aqui va tu codigo
+       //se inicia la sesion
+        Session session = sessionFactory.openSession();
+        //la transaccion a relizar
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            //guardamos el marcador
+            session.update(marcador);
+           
+            tx.commit();
+        }
+        catch (Exception e) {
+            //Se regresa a un estado consistente 
+            if (tx!=null){ 
+                tx.rollback();
+            }
+            e.printStackTrace(); 
+        }
+        finally {
+            //cerramos simpre la sesion
+            session.close();
+        }
     }
 }
