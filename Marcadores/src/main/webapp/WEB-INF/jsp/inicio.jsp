@@ -20,7 +20,7 @@
         
         <div class="contenedor">
             <header>
-                <form action="/marcadores/agregaMarcador"> 
+                <form action="/Marcadores/agregaMarcador"> 
                     <button id="btnSes" class="btn btn-primary btn-lg" >Agrega un marcador</button>
                 </form>
             </header>
@@ -45,7 +45,7 @@
                             <th>${m.latitud}</th>
                             <th>${m.longitud}</th>
                             <th>
-                                <form action="/marcadores/actualizaM" method="GET">
+                                <form action="/Marcadores/actualizaM" method="GET">
                                     <input id="latitud" name="latitud" hidden="true" value="${m.latitud}">
                                     <input id="longitud" name="longitud" hidden="true" value="${m.longitud}">
                                     <button type="submit" class="btn btn-primary btn-lg active">Actualiza</button>
@@ -67,7 +67,7 @@
                             '<h1 id="firstHeading" class="firstHeading">'+nom+'</h1>'+
                             '<div id="bodyContent">'+
                              '<p>'+des+'</p>'+
-                             '<form action="/marcadores/eliminaMarcador" method="GET">'+
+                             '<form action="/Marcadores/eliminaMarcador" method="GET">'+
                              '<input id="latitud" name="latitud" hidden="true" value="'+lat+'">'+
                              '<input id="longitud" name="longitud" hidden="true" value="'+lon+'">'+
                              '<button type="submit" class="btn btn-primary btn-lg active">Eliminamesta!</button>'+
